@@ -32,10 +32,27 @@ const getUsers = (req, res, next) => {
 };
 
 const UpdateUser = (req, res, next) => {
-  UserModel.find().then;
+  UserModel.findByIdAndUpdate(req.params.userId, {
+    firstName: req.body.firstName,
+  }).then((result) => {
+    res.status(202).json({
+      message: "User Updated",
+    });
+  });
 };
 
-const deleteUser = (req, res, next) => {};
+const deleteUser = async (req, res, next) => {
+  try {
+    const result = await UserModel.findByIdAndDelete(req.params.userId);
+    res.status(200).json({
+      message: "User Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
 
 const getUserById = (req, res, next) => {};
 
